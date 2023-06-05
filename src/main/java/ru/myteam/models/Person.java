@@ -1,7 +1,11 @@
 package ru.myteam.models;
 
 
+import java.util.Random;
+
 public class Person {
+
+    private final Random random = new Random();
 
     private int id;
     private String name;
@@ -21,6 +25,14 @@ public class Person {
         this.firstDice = firstDice;
         this.secondDice = secondDice;
         this.result = result;
+    }
+
+    public void setRollTheDice(){  //Антон, бросок костей сделал :)
+        int firstNumberSided = random.nextInt(6)+1;
+        int secondNumberSided = random.nextInt(6)+1;
+        setFirstDice(firstNumberSided);
+        setSecondDice(secondNumberSided);
+        setCell(getCell() + (firstNumberSided + secondNumberSided));
     }
 
     public int getId() {
