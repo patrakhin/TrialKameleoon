@@ -25,7 +25,12 @@ public class PeopleController {
 
     @GetMapping()
     public String index(Model model) throws SQLException {
-        model.addAttribute("people", personDAO.index());
+        try {
+            model.addAttribute("people", personDAO.index());
+        }
+        catch (Exception e){
+            e.printStackTrace();
+        }
         return "people/index";
     }
 

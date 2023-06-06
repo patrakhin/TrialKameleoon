@@ -17,22 +17,27 @@ import org.thymeleaf.spring5.templateresolver.SpringResourceTemplateResolver;
 import org.thymeleaf.spring5.view.ThymeleafViewResolver;
 
 import javax.sql.DataSource;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+import java.io.IOException;
 import java.util.Objects;
+import java.util.Properties;
 
 
 @Configuration
 @ComponentScan("ru.myteam")
 @EnableWebMvc
-@PropertySource("classpath:database.properties")
+//@PropertySource("classpath:database.properties")
 public class SpringConfig implements WebMvcConfigurer {
 
     private final ApplicationContext applicationContext;
-    private final Environment environment;
+    private final Properties properties;
 
     @Autowired
-    public SpringConfig(ApplicationContext applicationContext, Environment environment) {
+    public SpringConfig(ApplicationContext applicationContext) throws IOException {
         this.applicationContext = applicationContext;
-        this.environment = environment;
+        this.properties = new Properties();
+        properties.load(new FileInputStream("/home/andrey/AllMyProjects/RollOfTheDice/src/main/resources/database.properties"));
     }
 
     @Bean
@@ -62,10 +67,10 @@ public class SpringConfig implements WebMvcConfigurer {
     @Bean
     public DataSource dataSource(){
         DriverManagerDataSource dataSource = new DriverManagerDataSource();
-        dataSource.setDriverClassName(Objects.requireNonNull(environment.getProperty("driver")));
-        dataSource.setUrl(environment.getProperty("url"));
-        dataSource.setUsername(environment.getProperty("username"));
-        dataSource.setPassword(environment.getProperty("password"));
+        dataSource.setDriverClassName(Objects.requireNonNull(properties.getProperty("driver")));
+        dataSource.setUrl(properties.getProperty("url"));
+        dataSource.setUsername(properties.getProperty("username"));
+        dataSource.setPassword(properties.getProperty("password"));
 
         return dataSource;
     }
