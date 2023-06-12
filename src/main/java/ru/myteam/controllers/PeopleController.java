@@ -94,10 +94,10 @@ public class PeopleController {
         return "redirect:/people";
     }
 
-    @GetMapping("/endgame")
-    public String endGame(Model model) {
-        List<Person> people = personDAO.show(id);
-        model.addAttribute("people", people);
+    @GetMapping("/endgame/{id}")
+    public String endGame(@PathVariable("id") int id, Model model) {
+        Person person = personDAO.getPersonById(id);
+        model.addAttribute("person", person);
         return "people/endgame";
     }
 }

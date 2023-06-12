@@ -3,6 +3,7 @@ package ru.myteam.dao;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.BeanPropertyRowMapper;
 import org.springframework.jdbc.core.JdbcTemplate;
+import org.springframework.jdbc.core.RowMapper;
 import org.springframework.stereotype.Component;
 import ru.myteam.models.Person;
 
@@ -38,6 +39,19 @@ public class PersonDAO {
                 updatedPerson.getName(), updatedPerson.getCell(), updatedPerson.getFirstDice(),
                 updatedPerson.getSecondDice(), updatedPerson.getResult(), id);
     }
+
+    public Person getPersonById(int id) {
+        String sql = "SELECT * FROM people WHERE id = ?";
+        Object[] params = {id};
+        RowMapper<Person> rowMapper = new BeanPropertyRowMapper<>(Person.class);
+        List<Person> people = jdbcTemplate.query(sql, params, rowMapper);
+        if (people.isEmpty()) {
+            return null;
+        } else {
+            return people.get(0);
+        }
+    }
+
 
     public int checkAfterRoll(int id, Person checkBeforeRoll) {
         // Получение текущей ячейки игрока
