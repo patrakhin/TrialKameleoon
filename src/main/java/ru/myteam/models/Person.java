@@ -33,6 +33,7 @@ public class Person {
         setFirstDice(firstNumberSided);
         setSecondDice(secondNumberSided);
         setCell(getCell() + (firstNumberSided + secondNumberSided));
+        setResult(firstNumberSided + secondNumberSided);
     }
 
     public int getId() {

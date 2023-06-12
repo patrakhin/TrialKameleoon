@@ -41,8 +41,8 @@ public class PersonDAO {
 
     public void updateAfterRoll(int id, Person updatePersonAfterRoll){
         updatePersonAfterRoll.setRollTheDice();
-        jdbcTemplate.update("UPDATE people SET name = ?, cell = ?, firstdice = ?, seconddice = ?, result = ? WHERE id = ?",
-                updatePersonAfterRoll.getName(), updatePersonAfterRoll.getCell(), updatePersonAfterRoll.getFirstDice(),
+        jdbcTemplate.update("UPDATE people SET cell = ?, firstdice = ?, seconddice = ?, result = ? WHERE id = ?",
+                updatePersonAfterRoll.getCell(), updatePersonAfterRoll.getFirstDice(),
                 updatePersonAfterRoll.getSecondDice(), updatePersonAfterRoll.getResult(), id);
     }
 
