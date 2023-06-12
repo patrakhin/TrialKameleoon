@@ -10,7 +10,6 @@ import ru.myteam.models.Person;
 
 import javax.validation.Valid;
 import java.sql.SQLException;
-import java.util.List;
 
 
 @Controller
@@ -86,7 +85,7 @@ public class PeopleController {
         personDAO.updateAfterRoll(id, person);
 
         // Проверка на окончание игры
-        if (personDAO.checkAfterRoll(id, person) >= 48) {
+        if (personDAO.checkAfterRoll(id) >= 48) {
             personDAO.setEndGame(id); // Установить номер ячейки 48 для окончания игры
             return "redirect:/people/endgame/" + id; // Перенаправление на страницу "Конец игры"
         }

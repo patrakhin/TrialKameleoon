@@ -53,7 +53,7 @@ public class PersonDAO {
     }
 
 
-    public int checkAfterRoll(int id, Person checkBeforeRoll) {
+    public int checkAfterRoll(int id) {
         // Получение текущей ячейки игрока
         int currentCell = jdbcTemplate.queryForObject("SELECT cell FROM people WHERE id = ?", Integer.class, id);
         return currentCell;
