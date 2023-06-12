@@ -77,7 +77,7 @@ public class PeopleController {
         return "redirect:/people";
     }
 
-    @PatchMapping ("/{id}")
+    @PostMapping ("/{id}/roll")
     public String roll(@ModelAttribute("person") @Valid Person person, BindingResult bindingResult,
                        @PathVariable("id") int id) {
         if (bindingResult.hasErrors())
