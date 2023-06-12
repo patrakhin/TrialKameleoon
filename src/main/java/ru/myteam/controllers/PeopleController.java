@@ -79,10 +79,18 @@ public class PeopleController {
 
     @PostMapping ("/{id}/roll")
     public String roll(@ModelAttribute("person") @Valid Person person, BindingResult bindingResult,
-                       @PathVariable("id") int id) {
+                       @PathVariable("id") int id, Model model) {
         if (bindingResult.hasErrors())
             return "people/show";
         personDAO.updateAfterRoll(id, person);
+
+
+        // Проверка на окончание игры
+        if (person.getCell() > 48) {
+            personDAO.setEndGame(id); // Установить номер ячейки 48 для окончания игры
+            return "redirect:/people/endgame/" + id; // Перенаправление на страницу "Конец игры"
+        }
+
         return "redirect:/people";
     }
 }

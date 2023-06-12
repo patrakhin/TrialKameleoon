@@ -40,11 +40,25 @@ public class PersonDAO {
     }
 
     public void updateAfterRoll(int id, Person updatePersonAfterRoll){
+        // Получение текущей ячейки игрока
+        int currentCell = jdbcTemplate.queryForObject("SELECT cell FROM people WHERE id = ?", Integer.class, id);
+
+        // Выполнение броска кубиков и обновление значений
         updatePersonAfterRoll.setRollTheDice();
+
+        // Увеличение значения ячейки на результат броска
+        int newCell = currentCell + updatePersonAfterRoll.getResult();
+        updatePersonAfterRoll.setCell(newCell);
+
         jdbcTemplate.update("UPDATE people SET cell = ?, firstdice = ?, seconddice = ?, result = ? WHERE id = ?",
                 updatePersonAfterRoll.getCell(), updatePersonAfterRoll.getFirstDice(),
                 updatePersonAfterRoll.getSecondDice(), updatePersonAfterRoll.getResult(), id);
     }
+
+    public void setEndGame(int id) {
+        jdbcTemplate.update("UPDATE people SET cell = 48 WHERE id = ?", id);
+    }
+
 
     public void delete(int id) {
         jdbcTemplate.update("DELETE FROM people WHERE id = ?", id);
