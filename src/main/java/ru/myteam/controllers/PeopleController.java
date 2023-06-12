@@ -76,4 +76,13 @@ public class PeopleController {
         personDAO.delete(id);
         return "redirect:/people";
     }
+
+    @PatchMapping ("/{id}")
+    public String roll(@ModelAttribute("person") @Valid Person person, BindingResult bindingResult,
+                       @PathVariable("id") int id) {
+        if (bindingResult.hasErrors())
+            return "people/show";
+        personDAO.updateAfterRoll(id, person);
+        return "redirect:/people";
+    }
 }

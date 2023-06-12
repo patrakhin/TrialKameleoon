@@ -39,6 +39,13 @@ public class PersonDAO {
                 updatedPerson.getSecondDice(), updatedPerson.getResult(), id);
     }
 
+    public void updateAfterRoll(int id, Person updatePersonAfterRoll){
+        updatePersonAfterRoll.setRollTheDice();
+        jdbcTemplate.update("UPDATE people SET name = ?, cell = ?, firstdice = ?, seconddice = ?, result = ? WHERE id = ?",
+                updatePersonAfterRoll.getName(), updatePersonAfterRoll.getCell(), updatePersonAfterRoll.getFirstDice(),
+                updatePersonAfterRoll.getSecondDice(), updatePersonAfterRoll.getResult(), id);
+    }
+
     public void delete(int id) {
         jdbcTemplate.update("DELETE FROM people WHERE id = ?", id);
     }

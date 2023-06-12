@@ -27,7 +27,7 @@ public class Person {
         this.result = result;
     }
 
-    public void setRollTheDice(){  //Антон, бросок костей сделал :)
+    public void setRollTheDice(){  //бросок костей :)
         int firstNumberSided = random.nextInt(6)+1;
         int secondNumberSided = random.nextInt(6)+1;
         setFirstDice(firstNumberSided);
