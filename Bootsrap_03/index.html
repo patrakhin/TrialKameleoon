@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href="css/bootstrap.min.css" rel="stylesheet">
+    <style>
+        /* Стили для полей ввода */
+        .form-control {
+            width: 100%;
+            margin-bottom: 10px; /* Расстояние между полями ввода */
+        }
+
+        /* Стили для кнопки */
+        .btn-primary {
+            width: 100%;
+        }
+    </style>
+    <title>Login page</title>
+</head>
+<body>
+    <div class="container d-flex justify-content-center align-items-center" style="height: 100vh;">
+        <div class="row">
+            <form id="loginForm" class="text-center">
+                <label for="username">Username:</label>
+                <input type="text" id="username" name="username" class="form-control" required><br>
+                <label for="password">Password:</label>
+                <input type="password" id="password" name="password" class="form-control" required><br>
+                <button type="submit" class="btn btn-primary">Login</button>
+            </form>
+        </div>
+    </div>    
+    <script>
+        document.getElementById('loginForm').addEventListener('submit', function (event) {
+            event.preventDefault();
+
+            var username = document.getElementById('username').value;
+            var password = document.getElementById('password').value;
+
+            // Создаем объект с данными для отправки на сервер
+            var data = {
+                username: username,
+                password: password
+            };
+
+            // Отправляем запрос на сервер
+            fetch('http://localhost:8080/auth/login', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify(data)
+            })
+                .then(response => response.json()) // Преобразуем ответ в JSON
+                .then(data => {
+                    // Обрабатываем полученный токен
+                    var token = data['jwt-token'];
+
+                    // Делаем что-то с полученным токеном, например, сохраняем в localStorage
+                    localStorage.setItem('token', token);
+
+                    // Переходим на другую страницу или делаем другие действия
+                    console.log('Успешно авторизованы. Токен:', token);
+
+                    // Перенаправляем пользователя на вторую страницу
+                    window.location.href = 'page_2.html';
+                })
+                .catch(error => {
+                    // Обрабатываем ошибку
+                    console.error('Ошибка:', error);
+                });
+        });
+    </script>
+
+    
+
+    <script src="js/bootstrap.min.js"></script>
+</body>
+</html>

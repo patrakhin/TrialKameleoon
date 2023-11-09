@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Vehicles Page</title>
+    <!-- Подключаем Bootstrap CSS -->
+    <link href="css/bootstrap.min.css" rel="stylesheet">
+    <style>
+        .pagination-container {
+            margin-top: 20px;
+        }
+    </style>
+</head>
+<body>
+    <div class="container mt-5">
+        <div class="row">
+            <div class="col-12">
+                <table class="table">
+                    <thead class="thead-dark">
+                        <tr>
+                            <th>ID</th>
+                            <th>Number</th>
+                            <th>Price</th>
+                            <th>Year</th>
+                            <th>Mileage</th>
+                            <th>Equipment Type</th>
+                            <th>Car Brand</th>
+                            <th>Enterprise</th>
+                        </tr>
+                    </thead>
+                    <tbody id="vehicleTableBody">
+                        <!-- Тут будут данные из ответа бэкенда, используйте JavaScript для вставки данных -->
+                    </tbody>
+                </table>
+                <div class="pagination-container">
+                    <nav aria-label="Page navigation">
+                        <ul class="pagination" id="paginationButtons">
+                            <!-- Кнопки пагинации будут добавлены сюда с использованием JavaScript -->
+                        </ul>
+                    </nav>
+                    <div>
+                        <span id="currentPage"></span>
+                        <span> из </span>
+                        <span id="totalPages"></span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Подключаем скрипт для работы с таблицей и пагинацией -->
+    <script src="page_3_script.js"></script>
+    <script src="js/bootstrap.min.js"></script>
+</body>
+</html>
