@@ -4,8 +4,10 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Vehicles Page</title>
+    <link rel="icon" href="favicon.ico" type="image/x-icon">
+    <link rel="shortcut icon" href="favicon.ico" type="image/x-icon">
     <!-- Подключаем Bootstrap CSS -->
-    <link href="css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
     <style>
         .pagination-container {
             margin-top: 20px;
@@ -39,10 +41,10 @@
                             <!-- Кнопки пагинации будут добавлены сюда с использованием JavaScript -->
                         </ul>
                     </nav>
-                    <div>
-                        <span id="currentPage"></span>
-                        <span> из </span>
-                        <span id="totalPages"></span>
+                    <div class="text-center mt-3">
+                        <span id="currentPage" class="mr-2"></span>
+                        <span>из</span>
+                        <span id="totalPages" class="ml-2"></span>
                     </div>
                 </div>
             </div>
@@ -51,6 +53,6 @@
 
     <!-- Подключаем скрипт для работы с таблицей и пагинацией -->
     <script src="page_3_script.js"></script>
-    <script src="js/bootstrap.min.js"></script>
+    <script src="js/bootstrap.js"></script>
 </body>
 </html>
