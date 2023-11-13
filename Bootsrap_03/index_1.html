@@ -5,11 +5,23 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link href="css/bootstrap.css" rel="stylesheet">
     <link rel="shortcut icon" href="imgs/favicon.ico" type="image/x-icon">
+    <style>
+        /* Стили для полей ввода */
+        .form-control {
+            width: 100%;
+            margin-bottom: 10px; /* Расстояние между полями ввода */
+        }
+
+        /* Стили для кнопки */
+        .btn-primary {
+            width: 100%;
+        }
+    </style>
     <title>Login page</title>
 </head>
 <body>
-    <div class="container">
-        <div class="col-md-6 mx-auto">
+    <div class="container d-flex justify-content-center align-items-center" style="height: 100vh;">
+        <div class="row">
             <form id="loginForm" class="text-center">
                 <label for="username">Username:</label>
                 <input type="text" id="username" name="username" class="form-control" required><br>
@@ -18,7 +30,7 @@
                 <button type="submit" class="btn btn-primary">Login</button>
             </form>
         </div>
-    </div>      
+    </div>    
     <script>
         document.getElementById('loginForm').addEventListener('submit', function (event) {
             event.preventDefault();
@@ -60,6 +72,8 @@
                 });
         });
     </script>
+
+    
 
     <script src="js/bootstrap.js"></script>
 </body>
