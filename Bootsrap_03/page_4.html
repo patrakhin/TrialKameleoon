@@ -1,0 +1,60 @@
+<!-- page_4.html -->
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Add Vehicle</title>
+    <link rel="icon" href="favicon.ico" type="image/x-icon">
+    <link rel="shortcut icon" href="favicon.ico" type="image/x-icon">
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <style>
+        .error-message {
+            color: red;
+        }
+    </style>
+</head>
+<body>
+    <div class="container mt-5">
+        <h2>Add Vehicle</h2>
+        <form id="vehicleForm" class="needs-validation" novalidate>
+            <div class="form-group">
+                <label for="number">Vehicle Number:</label>
+                <input type="text" class="form-control" id="number" required>
+                <div class="error-message" id="numberError"></div>
+                <div id="numberSuccess" style="color: green;"></div>
+            </div>
+            <div class="form-group">
+                <label for="price">Price:</label>
+                <input type="number" class="form-control" id="price" name="price" required>
+            </div>
+            <div class="form-group">
+                <label for="year">Year:</label>
+                <input type="number" class="form-control" id="year" name="year" required>
+            </div>
+            <div class="form-group">
+                <label for="mileage">Mileage:</label>
+                <input type="number" class="form-control" id="mileage" name="mileage" required>
+            </div>
+            <div class="form-group">
+                <label for="equipmentType">Equipment Type:</label>
+                <input type="text" class="form-control" id="equipmentType" name="equipmentType" required>
+            </div>
+            <div class="form-group">
+                <label for="carBrand">Car Brand:</label>
+                <input type="text" class="form-control" id="carBrand" name="carBrand" required>
+            </div>
+            <div class="form-group">
+                <label for="enterprise">Enterprise:</label>
+                <input type="text" class="form-control" id="enterprise" name="enterprise" required>
+            </div>
+            <button type="button" class="btn btn-primary" onclick="addVehicle()">Добавить машину</button>
+        </form>
+    </div>
+    <script src="page_4_script.js"></script>
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.10.2/dist/umd/popper.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+</body>
+</html>
