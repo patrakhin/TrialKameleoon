@@ -4,8 +4,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 import org.springframework.web.server.ResponseStatusException;
-import patrakhin.trial.kameleoon.entity.QuoteData;
-import patrakhin.trial.kameleoon.entity.UserData;
+import patrakhin.trial.kameleoon.entity.QuoteDataEntity;
+import patrakhin.trial.kameleoon.entity.UserDataEntity;
 import patrakhin.trial.kameleoon.repository.QuoteDataRepository;
 import java.util.Date;
 import java.util.List;
@@ -16,37 +16,33 @@ import java.util.Random;
 public class QuoteDataService {
 
     private final QuoteDataRepository quoteDataRepository;
-    private final UserQuoteService userQuoteService;
     private final Random random;
 
     @Autowired
-    public QuoteDataService(QuoteDataRepository quoteDataRepository, UserQuoteService userQuoteService){
+    public QuoteDataService(QuoteDataRepository quoteDataRepository){
         this.quoteDataRepository = quoteDataRepository;
-        this.userQuoteService = userQuoteService;
         this.random = new Random();
     }
 
-    public QuoteData createQuoteData(String content, UserData userData){
-        QuoteData quoteData = new QuoteData();
-        quoteData.setContent(content);
-        quoteData.setCreationDate(new Date());
-        QuoteData savedQuote = quoteDataRepository.save(quoteData);
-        userQuoteService.addUserQuote(userData, quoteData);
-        return savedQuote;
+    public QuoteDataEntity createQuoteData(String content){
+        QuoteDataEntity quoteDataEntity = new QuoteDataEntity();
+        quoteDataEntity.setContent(content);
+        quoteDataEntity.setCreationDate(new Date());
+        return quoteDataRepository.save(quoteDataEntity);
     }
 
-    public Optional<QuoteData> getQuoteById(Long id) {
+    public Optional<QuoteDataEntity> getQuoteById(Long id) {
         return quoteDataRepository.findById(id);
     }
 
-    public List<QuoteData> getAllQuotes() {
+    public List<QuoteDataEntity> getAllQuotes() {
         return quoteDataRepository.findAll();
     }
 
-    public QuoteData updateQuote(Long id, String newContent) {
-        Optional<QuoteData> optionalQuote = quoteDataRepository.findById(id);
+    public QuoteDataEntity updateQuote(Long id, String newContent) {
+        Optional<QuoteDataEntity> optionalQuote = quoteDataRepository.findById(id);
         if (optionalQuote.isPresent()) {
-            QuoteData quote = optionalQuote.get();
+            QuoteDataEntity quote = optionalQuote.get();
             quote.setContent(newContent);
             quote.setUpdateDate(new Date());
             return quoteDataRepository.save(quote);
@@ -56,26 +52,25 @@ public class QuoteDataService {
         }
     }
 
-    public void deleteQuote(UserData user, Long quoteId) {
-        Optional<QuoteData> optionalQuote = quoteDataRepository.findById(quoteId);
+    public void deleteQuote(UserDataEntity user, Long quoteId) {
+        Optional<QuoteDataEntity> optionalQuote = quoteDataRepository.findById(quoteId);
         if (optionalQuote.isEmpty()) {
             // Цитата не найдена
             throw new ResponseStatusException(HttpStatus.NOT_FOUND);
         }
 
-        QuoteData quote = optionalQuote.get();
-        if (quote.getUserQuotes() == null || quote.getUserQuotes().stream()
-                .noneMatch(userQuote -> userQuote.getUserData().equals(user))) {
+        List<UserDataEntity> users = optionalQuote.get().getUserData();
+        boolean isOwnedByUser = users.stream().anyMatch(userData -> userData.getId() == user.getId());
+
+        if (!isOwnedByUser) {
             // Непринадлежит пользователю
             throw new ResponseStatusException(HttpStatus.FORBIDDEN);
         }
-
-        userQuoteService.deleteUserQuote(user,quote);
         quoteDataRepository.deleteById(quoteId);
     }
 
-    public QuoteData getRandomQuote() {
-        List<QuoteData> allQuotes = quoteDataRepository.findAll();
+    public QuoteDataEntity getRandomQuote() {
+        List<QuoteDataEntity> allQuotes = quoteDataRepository.findAll();
         if (!allQuotes.isEmpty()) {
             int randomIndex = random.nextInt(allQuotes.size());
             return allQuotes.get(randomIndex);
@@ -86,14 +81,14 @@ public class QuoteDataService {
     }
 
     public void voteForQuote(long quoteId, boolean isUpVote) {
-        Optional<QuoteData> optionalQuoteData = quoteDataRepository.findById(quoteId);
+        Optional<QuoteDataEntity> optionalQuoteData = quoteDataRepository.findById(quoteId);
         if (optionalQuoteData.isPresent()) {
-            QuoteData quoteData = optionalQuoteData.get();
+            QuoteDataEntity quoteDataEntity = optionalQuoteData.get();
             int increment = isUpVote ? 1 : -1;
-            quoteData.setVoteRecorder(quoteData.getVoteRecorder() + increment);
+            quoteDataEntity.setVoteRecorder(quoteDataEntity.getVoteRecorder() + increment);
 
             // Сохраняем обновленные данные цитаты в репозитории
-            quoteDataRepository.save(quoteData);
+            quoteDataRepository.save(quoteDataEntity);
         } else {
             // Обработка случая, когда цитата не найдена
             throw new ResponseStatusException(HttpStatus.NOT_FOUND);

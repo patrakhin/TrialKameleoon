@@ -3,11 +3,11 @@ package patrakhin.trial.kameleoon.entity;
 import jakarta.persistence.*;
 import org.springframework.data.annotation.CreatedDate;
 import java.util.Date;
-import java.util.Set;
+import java.util.List;
 
 @Entity
 @Table(name = "user_data")
-public class UserData {
+public class UserDataEntity {
 
     @Id
     @Column(name = "id")
@@ -28,17 +28,22 @@ public class UserData {
     @Column(name = "creation_date", updatable = false)
     private Date creationDate;
 
-    @OneToMany(mappedBy = "userData")
-    private Set<UserQuote> userQuotes;
+    @ManyToMany
+    @JoinTable(
+            name = "user_quote",
+            joinColumns = @JoinColumn(name = "user_id"),
+            inverseJoinColumns = @JoinColumn(name = "quote_id")
+    )
+    private List<QuoteDataEntity> quoteDatumEntities;
 
-    public UserData(){}
+    public UserDataEntity(){}
 
-    public UserData(String userName, String eMail, String password, Date creationDate, Set<UserQuote> userQuotes) {
+    public UserDataEntity(String userName, String eMail, String password, Date creationDate, List<QuoteDataEntity> quoteDatumEntities) {
         this.userName = userName;
         this.eMail = eMail;
         this.password = password;
         this.creationDate = creationDate;
-        this.userQuotes = userQuotes;
+        this.quoteDatumEntities = quoteDatumEntities;
     }
 
     public long getId() {
@@ -81,12 +86,12 @@ public class UserData {
         this.creationDate = creationDate;
     }
 
-    public Set<UserQuote> getUserQuotes() {
-        return userQuotes;
+    public List<QuoteDataEntity> getQuoteData() {
+        return quoteDatumEntities;
     }
 
-    public void setUserQuotes(Set<UserQuote> userQuotes) {
-        this.userQuotes = userQuotes;
+    public void setQuoteData(List<QuoteDataEntity> quoteDatumEntities) {
+        this.quoteDatumEntities = quoteDatumEntities;
     }
 
     @Override

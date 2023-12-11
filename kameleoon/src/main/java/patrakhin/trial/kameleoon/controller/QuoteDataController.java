@@ -5,7 +5,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.server.ResponseStatusException;
-import patrakhin.trial.kameleoon.entity.QuoteData;
+import patrakhin.trial.kameleoon.entity.QuoteDataEntity;
 import patrakhin.trial.kameleoon.service.QuoteDataService;
 
 import java.util.List;
@@ -21,29 +21,28 @@ public class QuoteDataController {
         this.quoteDataService = quoteDataService;
     }
 
-    /* Need UserData */
-//    @PostMapping
-//    public ResponseEntity<QuoteData> createQuote(@RequestBody QuoteData quoteData) {
-//        QuoteData createdQuote = quoteDataService.createQuoteData(quoteData.getContent(), /* UserData */);
-//        return new ResponseEntity<>(createdQuote, HttpStatus.CREATED);
-//    }
+    @PostMapping
+    public ResponseEntity<QuoteDataEntity> createQuote(@RequestBody QuoteDataEntity quoteDataEntity) {
+        QuoteDataEntity createdQuote = quoteDataService.createQuoteData(quoteDataEntity.getContent());
+        return new ResponseEntity<>(createdQuote, HttpStatus.CREATED);
+    }
 
     @GetMapping("/{id}")
-    public ResponseEntity<QuoteData> getQuoteById(@PathVariable Long id) {
+    public ResponseEntity<QuoteDataEntity> getQuoteById(@PathVariable Long id) {
         return quoteDataService.getQuoteById(id)
-                .map(quoteData -> new ResponseEntity<>(quoteData, HttpStatus.OK))
+                .map(quoteDataEntity -> new ResponseEntity<>(quoteDataEntity, HttpStatus.OK))
                 .orElseGet(() -> new ResponseEntity<>(HttpStatus.NOT_FOUND));
     }
 
     @GetMapping
-    public ResponseEntity<List<QuoteData>> getAllQuotes() {
-        List<QuoteData> allQuotes = quoteDataService.getAllQuotes();
+    public ResponseEntity<List<QuoteDataEntity>> getAllQuotes() {
+        List<QuoteDataEntity> allQuotes = quoteDataService.getAllQuotes();
         return new ResponseEntity<>(allQuotes, HttpStatus.OK);
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity<QuoteData> updateQuote(@PathVariable Long id, @RequestBody QuoteData quoteData) {
-        QuoteData updatedQuote = quoteDataService.updateQuote(id, quoteData.getContent());
+    public ResponseEntity<QuoteDataEntity> updateQuote(@PathVariable Long id, @RequestBody QuoteDataEntity quoteDataEntity) {
+        QuoteDataEntity updatedQuote = quoteDataService.updateQuote(id, quoteDataEntity.getContent());
         return new ResponseEntity<>(updatedQuote, HttpStatus.OK);
     }
 
@@ -55,9 +54,9 @@ public class QuoteDataController {
 //    }
 
     @GetMapping("/random")
-    public ResponseEntity<QuoteData> getRandomQuote() {
+    public ResponseEntity<QuoteDataEntity> getRandomQuote() {
         try {
-            QuoteData randomQuote = quoteDataService.getRandomQuote();
+            QuoteDataEntity randomQuote = quoteDataService.getRandomQuote();
             return new ResponseEntity<>(randomQuote, HttpStatus.OK);
         } catch (ResponseStatusException e) {
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);

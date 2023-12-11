@@ -2,7 +2,7 @@ package patrakhin.trial.kameleoon.service;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import patrakhin.trial.kameleoon.entity.UserData;
+import patrakhin.trial.kameleoon.entity.UserDataEntity;
 import patrakhin.trial.kameleoon.repository.UserDataRepository;
 import java.util.Date;
 
@@ -16,15 +16,15 @@ public class UserDataService {
         this.userDataRepository = userDataRepository;
     }
 
-    public UserData createUser(String name, String email, String password) {
-        if (userDataRepository.existsByEMail(email)){
+    public UserDataEntity createUser(String name, String email, String password) {
+        if (userDataRepository.existsByeMail(email)){
             return null;
         }
-        UserData userData = new UserData();
-        userData.setUserName(name);
-        userData.seteMail(email);
-        userData.setPassword(password);
-        userData.setCreationDate(new Date());
-        return userDataRepository.save(userData);
+        UserDataEntity userDataEntity = new UserDataEntity();
+        userDataEntity.setUserName(name);
+        userDataEntity.seteMail(email);
+        userDataEntity.setPassword(password);
+        userDataEntity.setCreationDate(new Date());
+        return userDataRepository.save(userDataEntity);
     }
 }

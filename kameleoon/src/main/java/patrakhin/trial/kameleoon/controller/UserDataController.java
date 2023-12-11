@@ -3,7 +3,7 @@ package patrakhin.trial.kameleoon.controller;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-import patrakhin.trial.kameleoon.entity.UserData;
+import patrakhin.trial.kameleoon.entity.UserDataEntity;
 import patrakhin.trial.kameleoon.service.UserDataService;
 
 @RestController
@@ -17,12 +17,12 @@ public class UserDataController {
     }
 
     @PostMapping("/register")
-    public ResponseEntity<UserData> registerUser(
+    public ResponseEntity<UserDataEntity> registerUser(
             @RequestParam String name,
             @RequestParam String email,
             @RequestParam String password) {
 
-        UserData newUser = userDataService.createUser(name, email, password);
+        UserDataEntity newUser = userDataService.createUser(name, email, password);
 
         if (newUser != null) {
             return ResponseEntity.ok(newUser);
