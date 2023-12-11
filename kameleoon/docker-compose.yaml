@@ -1,0 +1,9 @@
+version: '3.8'
+
+services:
+  kameleoon-app:
+    image: patrakhin2023/trialkameleoon:v1.0
+    container_name: kameleoon-container
+    ports:
+      - "8080:8082"
+    restart: always
