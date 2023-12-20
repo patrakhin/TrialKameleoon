@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href="css/bootstrap.min.css" rel="stylesheet">
+    <title>Создание машины</title>
+</head>
+<body>
+    <div class="container mt-5">
+        <h2>Создание машины</h2>
+        <form id="createVehicleForm">
+            <div class="mb-3">
+                <label for="numberVehicle" class="form-label">Номер машины</label>
+                <input type="text" class="form-control" id="numberVehicle" required>
+            </div>
+            <div class="mb-3">
+                <label for="price" class="form-label">Цена</label>
+                <input type="number" class="form-control" id="price" required>
+            </div>
+            <div class="mb-3">
+                <label for="yearOfManufacture" class="form-label">Год выпуска</label>
+                <input type="number" class="form-control" id="yearOfManufacture" required>
+            </div>
+            <div class="mb-3">
+                <label for="mileage" class="form-label">Пробег</label>
+                <input type="number" class="form-control" id="mileage" required>
+            </div>
+            <div class="mb-3">
+                <label for="equipmentType" class="form-label">Комплектация</label>
+                <input type="number" class="form-control" id="equipmentType" required>
+            </div>
+            <!-- Добавьте другие поля формы согласно вашему JSON-запросу -->
+            <button type="submit" class="btn btn-primary">Создать машину</button>
+        </form>
+    </div>
+    <script src="page_5_script.js"></script>
+    <script src="js/bootstrap.min.js"></script>
+</body>
+</html>

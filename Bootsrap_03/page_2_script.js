@@ -19,3 +19,7 @@ document.getElementById('showVehiclesBtn').addEventListener('click', function ()
         console.error('Ошибка:', error);
     });
 });
+document.getElementById('createVehicleBtn').addEventListener('click', function () {
+    // Переходим на страницу создания машины
+    window.location.href = 'page_5.html';
+});
