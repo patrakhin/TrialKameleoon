@@ -26,15 +26,30 @@
                 <label for="mileage" class="form-label">Пробег</label>
                 <input type="number" class="form-control" id="mileage" required>
             </div>
+
             <div class="mb-3">
                 <label for="equipmentType" class="form-label">Комплектация</label>
-                <input type="number" class="form-control" id="equipmentType" required>
+                <select class="form-select" id="equipmentType" required>
+                    <option value="BASIC">BASIC</option>
+                    <option value="MEDIUM">MEDIUM</option>
+                    <option value="MAXIMUM">MAXIMUM</option>
+                    <option value="PREMIUM">PREMIUM</option>
+                    <option value="SPORT">SPORT</option>
+                </select>
             </div>
-            <!-- Добавьте другие поля формы согласно вашему JSON-запросу -->
+            <div class="mb-3">
+                <label for="carBrand" class="form-label">Марка автомобиля</label>
+                <select class="form-select" id="carBrand" required></select>              
+            </div>
+            <div class="mb-3">
+                <label for="enterprises" class="form-label">Предприятие</label>
+                <select class="form-select" id="enterprises" required></select>              
+            </div>
             <button type="submit" class="btn btn-primary">Создать машину</button>
         </form>
     </div>
-    <script src="page_5_script.js"></script>
+    <script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
     <script src="js/bootstrap.min.js"></script>
+    <script src="page_5_script.js"></script>
 </body>
 </html>
