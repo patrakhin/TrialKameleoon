@@ -70,6 +70,26 @@ document.addEventListener('DOMContentLoaded', function () {
             }
         });
         paginationContainer.appendChild(liPrevious);
+
+        // Добавляем кнопку "Первая страница"
+        const liFirst = document.createElement('li');
+        liFirst.className = 'page-item';
+        liFirst.innerHTML = `<a class="page-link" href="#" data-page="0">Первая страница</a>`;
+        liFirst.addEventListener('click', function (event) {
+            event.preventDefault();
+            fetchData(0);
+        });
+        paginationContainer.appendChild(liFirst);
+
+        // Добавляем кнопку "Последняя страница"
+        const liLast = document.createElement('li');
+        liLast.className = 'page-item';
+        liLast.innerHTML = `<a class="page-link" href="#" data-page="${totalPages - 1}">Последняя страница</a>`;
+        liLast.addEventListener('click', function (event) {
+            event.preventDefault();
+            fetchData(totalPages - 1);
+        });
+        paginationContainer.appendChild(liLast);
     
         const liNext = document.createElement('li');
         liNext.className = 'page-item';

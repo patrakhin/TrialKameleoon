@@ -4,8 +4,14 @@ document.addEventListener('DOMContentLoaded', function () {
 
     // Если токен отсутствует, перенаправляем пользователя на страницу входа
     if (!token) {
-        window.location.href = 'index.html'; // Заменить на фактический путь
+        window.location.href = 'index.html'; 
     }
+
+
+    // Переменные для сохранения данных о предприятии
+    let selectedEnterpriseId;
+    let selectedEnterpriseAddress;
+    let selectedEnterprisePhone;
 
     // Получаем форму и добавляем обработчик события на отправку формы
     const createVehicleForm = document.getElementById('createVehicleForm');
@@ -29,8 +35,9 @@ document.addEventListener('DOMContentLoaded', function () {
             mileage: parseInt(mileage),
             equipmentType: equipmentType,
             carBrand: carBrand,
-            enterpriseId: parseInt(enterpriseId) // Используйте значение, которое вам нужно
-            // Добавьте другие поля по необходимости
+            enterpriseId: parseInt(enterpriseId), // Используйте значение, которое вам нужно
+            enterpriseAddress: selectedEnterpriseAddress,
+            enterprisePhone: selectedEnterprisePhone
         };
 
         // Отправляем POST-запрос на бэкэнд для создания новой машины
@@ -87,17 +94,32 @@ document.addEventListener('DOMContentLoaded', function () {
         const enterpriseSelect = document.getElementById('enterprises'); // Используйте значение, которое вам нужно
 
         // Очищаем выпадающий список перед добавлением новых элементов
-        enterpriseSelect.innerHTML = '';
+        //enterpriseSelect.innerHTML = '';
 
         // Создаем элементы для каждого предприятия
         data.forEach(enterprise => {
             const option = document.createElement('option');
             option.value = enterprise.id;
             option.textContent = enterprise.enterpriseName;
+
+            // Добавляем скрытые атрибуты с дополнительными данными
+            option.setAttribute('data-address', enterprise.enterprisesAddress);
+            option.setAttribute('data-phone', enterprise.enterprisesPhone);
+
             enterpriseSelect.appendChild(option);
         });
     })
     .catch(error => console.error('Ошибка при получении данных для предприятий:', error));
+
+    // Обработчик события выбора предприятия
+    enterpriseSelect.addEventListener('change', function () {
+        const selectedOption = this.options[this.selectedIndex];
+    
+        // Сохраняем данные о выбранном предприятии
+        selectedEnterpriseId = selectedOption.value;
+        selectedEnterpriseAddress = selectedOption.getAttribute('data-address');
+        selectedEnterprisePhone = selectedOption.getAttribute('data-phone');
+    });
 
     // ... (остальной код)
 });
