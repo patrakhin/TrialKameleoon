@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href="css/bootstrap.min.css" rel="stylesheet">
+    <title>Редактирование машины</title>
+</head>
+<body>
+    <div class="container mt-5">
+        <h2>Редактирование машины</h2>
+        <form id="editVehicleForm">
+            <div class="mb-3">
+                <label for="numberVehicle" class="form-label">Номер машины</label>
+                <input type="text" class="form-control" id="numberVehicle" required>
+            </div>
+            <div class="mb-3">
+                <label for="price" class="form-label">Цена</label>
+                <input type="number" class="form-control" id="price" required>
+            </div>
+            <div class="mb-3">
+                <label for="yearOfManufacture" class="form-label">Год выпуска</label>
+                <input type="number" class="form-control" id="yearOfManufacture" required>
+            </div>
+            <div class="mb-3">
+                <label for="mileage" class="form-label">Пробег</label>
+                <input type="number" class="form-control" id="mileage" required>
+            </div>
+
+            <div class="mb-3">
+                <label for="equipmentType" class="form-label">Комплектация</label>
+                <select class="form-select" id="equipmentType" required>
+                    <option value="BASIC">BASIC</option>
+                    <option value="MEDIUM">MEDIUM</option>
+                    <option value="MAXIMUM">MAXIMUM</option>
+                    <option value="PREMIUM">PREMIUM</option>
+                    <option value="SPORT">SPORT</option>
+                </select>
+            </div>
+            <div class="mb-3">
+                <label for="carBrand" class="form-label">Марка автомобиля</label>
+                <select class="form-select" id="carBrand" required></select>              
+            </div>
+            <div class="mb-3">
+                <label for="enterprises" class="form-label">Предприятие</label>
+                <select class="form-select" id="enterprises" required></select>              
+            </div>
+            <button type="submit" class="btn btn-primary">Сохранить изменения</button>
+        </form>
+    </div>
+    <script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
+    <script src="js/bootstrap.min.js"></script>
+    <script src="page_6_script.js"></script>
+</body>
+</html>
