@@ -7,21 +7,52 @@ document.addEventListener('DOMContentLoaded', function () {
         window.location.href = 'index.html'; 
     }
 
-    // Получаем данные о выбранной машине из localStorage
-    const selectedVehicle = JSON.parse(localStorage.getItem('selectedVehicle'));
+    // Получаем id выбранной машины из localStorage
+    const selectedVehicleId = parseInt(localStorage.getItem('selectedVehicleId'), 10);
 
-    // Если данные отсутствуют, перенаправляем пользователя на страницу с машинами
-    if (!selectedVehicle) {
+    // Если id отсутствует, перенаправляем пользователя на страницу с машинами
+    if (!selectedVehicleId) {
         window.location.href = 'page_3.html';
     }
 
-    // Заполняем форму данными о выбранной машине
-    document.getElementById('numberVehicle').value = selectedVehicle.numberVehicle;
-    document.getElementById('price').value = selectedVehicle.price;
-    document.getElementById('yearOfManufacture').value = selectedVehicle.yearOfManufacture;
-    document.getElementById('mileage').value = selectedVehicle.mileage;
-    document.getElementById('equipmentType').value = selectedVehicle.equipmentType;
-    
+    // Получаем форму и добавляем обработчик события на отправку формы
+    const editVehicleForm = document.getElementById('editVehicleForm');
+    editVehicleForm.addEventListener('submit', function (event) {
+        event.preventDefault(); // Предотвращаем стандартное поведение формы
+
+        // Собираем данные из формы
+        const formData = {
+            numberVehicle: document.getElementById('numberVehicle').value,
+            price: parseFloat(document.getElementById('price').value),
+            yearOfManufacture: parseInt(document.getElementById('yearOfManufacture').value, 10),
+            mileage: parseInt(document.getElementById('mileage').value, 10),
+            equipmentType: document.getElementById('equipmentType').value,
+            carBrandId: parseInt(document.getElementById('carBrand').value, 10),
+            enterpriseId: parseInt(document.getElementById('enterprises').value, 10)
+        };
+
+        // Отправляем PATCH-запрос на бэкэнд для обновления данных о машине
+        fetch(`http://localhost:8080/manager1/vehicle/${selectedVehicleId}`, {
+            method: 'PATCH',
+            headers: {
+                'Content-Type': 'application/json',
+                'Authorization': 'Bearer ' + token
+            },
+            body: JSON.stringify(formData)
+        })
+        .then(response => {
+            if (!response.ok) {
+                throw new Error('Network response was not ok');
+            }
+            return response.json();
+        })
+        .then(updatedVehicle => {
+            // Перенаправляем пользователя на страницу с машинами (страницу 3)
+            window.location.href = 'page_3.html';
+        })
+        .catch(error => console.error('Ошибка при обновлении данных о машине:', error));
+    });
+
     // Получаем данные о марках машин для заполнения списка
     fetch('http://localhost:8080/manager1/vehicles/car_brand', {
         headers: {
@@ -38,9 +69,6 @@ document.addEventListener('DOMContentLoaded', function () {
             option.textContent = brand.brandName;
             carBrandSelect.appendChild(option);
         });
-
-        // Установим значение выбранной марки машины
-        carBrandSelect.value = selectedVehicle.carBrandId;
     })
     .catch(error => console.error('Ошибка при получении данных для carBrand:', error));
 
@@ -66,65 +94,27 @@ document.addEventListener('DOMContentLoaded', function () {
 
             enterpriseSelect.appendChild(option);
         });
-
-        // Добавляем обработчик события изменения предприятия здесь, внутри этого блока
-        enterpriseSelect.addEventListener('change', function () {
-            const selectedOption = this.options[this.selectedIndex];
-
-            // Сохраняем данные о выбранном предприятии
-            selectedEnterpriseId = selectedOption.value;
-            selectedEnterpriseAddress = selectedOption.getAttribute('data-address');
-            selectedEnterprisePhone = selectedOption.getAttribute('data-phone');
-        });
     })
     .catch(error => console.error('Ошибка при получении данных для предприятий:', error));
 
-    // Получаем форму и добавляем обработчик события на отправку формы
-    const editVehicleForm = document.getElementById('editVehicleForm');
-    editVehicleForm.addEventListener('submit', function (event) {
-        event.preventDefault(); // Предотвращаем стандартное поведение формы
+    // Получаем данные о машине по её id для заполнения формы
+    fetch(`http://localhost:8080/manager1/vehicle/${selectedVehicleId}`, {
+        headers: {
+            'Authorization': 'Bearer ' + token
+        }
+    })
+    .then(response => response.json())
+    .then(selectedVehicle => {
+        // Заполняем форму данными о выбранной машине
+        document.getElementById('numberVehicle').value = selectedVehicle.numberVehicle;
+        document.getElementById('price').value = selectedVehicle.price;
+        document.getElementById('yearOfManufacture').value = selectedVehicle.yearOfManufacture;
+        document.getElementById('mileage').value = selectedVehicle.mileage;
+        document.getElementById('equipmentType').value = selectedVehicle.equipmentType;
 
-        // Получаем значения полей формы
-        const numberVehicle = document.getElementById('numberVehicle').value;
-        const price = document.getElementById('price').value;
-        const yearOfManufacture = document.getElementById('yearOfManufacture').value;
-        const mileage = document.getElementById('mileage').value;
-        const equipmentType = document.getElementById('equipmentType').value;
-        const carBrand = document.getElementById('carBrand').value;
-        const enterpriseId = document.getElementById('enterprises').value; // Используйте значение, которое вам нужно
-
-        // Создаем объект с данными для отправки на бэкэнд
-        const editedVehicleData = {
-            id: selectedVehicle.id, // Важно включить идентификатор машины для редактирования
-            numberVehicle: numberVehicle,
-            price: parseFloat(price),
-            yearOfManufacture: parseInt(yearOfManufacture),
-            mileage: parseInt(mileage),
-            equipmentType: equipmentType,
-            carBrand: carBrand,
-            enterpriseId: parseInt(enterpriseId), // Используйте значение, которое вам нужно
-        };
-
-        // Отправляем PATCH-запрос на бэкэнд для редактирования машины
-        fetch(`http://localhost:8080/manager1/edit/${selectedVehicle.id}`, {
-            method: 'PATCH',
-            headers: {
-                'Content-Type': 'application/json',
-                'Authorization': 'Bearer ' + token
-            },
-            body: JSON.stringify(editedVehicleData)
-        })
-        .then(response => response.json())
-        .then(data => {
-            // Обработка успешного ответа от сервера (если необходимо)
-            console.log('Машина успешно отредактирована:', data);
-
-            // Перенаправляем пользователя на страницу, куда нужно после редактирования машины
-            window.location.href = 'page_3.html'; // Заменить на фактический путь
-        })
-        .catch(error => {
-            // Обработка ошибки
-            console.error('Ошибка при редактировании машины:', error);
-        });
-    });
+        // Устанавливаем значения выбранной марки машины и предприятия
+        document.getElementById('carBrand').value = selectedVehicle.carBrandId;
+        document.getElementById('enterprises').value = selectedVehicle.enterpriseId;
+    })
+    .catch(error => console.error('Ошибка при получении данных о машине:', error));
 });

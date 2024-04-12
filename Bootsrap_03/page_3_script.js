@@ -141,18 +141,18 @@ document.addEventListener('DOMContentLoaded', function () {
     }
 
     // Функция для обработки клика по кнопке "Редактировать"
-    function handleEditButtonClick(event) {
-        const target = event.target;
+function handleEditButtonClick(event) {
+    const target = event.target;
 
-        if (target.classList.contains('edit-button')) {
-            const rowIndex = target.dataset.vehicleIndex;
-            const selectedVehicle = dataFromServer.content[rowIndex];
-            // Сохраняем информацию о выбранной машине в localStorage
-            localStorage.setItem('selectedVehicle', JSON.stringify(selectedVehicle));
-            // Переходим на страницу редактирования
-            window.location.href = 'page_6.html';
-        }
+    if (target.classList.contains('edit-button')) {
+        const rowIndex = target.dataset.vehicleIndex;
+        const selectedVehicleId = dataFromServer.content[rowIndex].id;
+        // Сохраняем id выбранной машины в localStorage
+        localStorage.setItem('selectedVehicleId', selectedVehicleId);
+        // Переходим на страницу редактирования
+        window.location.href = 'page_6.html';
     }
+}
 
     // Функция для добавления слушателей событий
     function addEventListeners() {
